@@ -1,0 +1,12 @@
+{
+  "name": "AT YOUR SERVICE",
+  "short_name": "At Your Service",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ],
+  "theme_color": "#0b2a5b",
+  "background_color": "#ffffff",
+  "display": "browser",
+  "start_url": "/"
+}
