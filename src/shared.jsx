@@ -1,3 +1,5 @@
+import badge from './assets/kuya-mark-badge.jpg';
+
 /* Shared contact details and original line icons */
 export const CONTACT = {
   phoneDisplay: '0917-504-5959',
@@ -119,7 +121,7 @@ export function Icon({ name, size = 22 }) {
 export function Brand() {
   return (
     <>
-      <span className="brand-mark"><Icon name="check" size={16} /></span>
+      <img src={badge} alt="" className="brand-logo" width="40" height="40" />
       <span>Kuya Mark <span className="brand-light">Concierge</span></span>
     </>
   );

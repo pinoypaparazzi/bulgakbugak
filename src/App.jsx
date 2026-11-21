@@ -89,40 +89,30 @@ function Navbar({ copy }) {
   );
 }
 
-function ErrandCard() {
-  const items = [
-    { icon: 'cart', label: 'Weekly grocery run', status: 'Done', done: true },
-    { icon: 'document', label: 'Pick up NBI clearance', status: 'Done', done: true },
-    { icon: 'car', label: 'Drive Tita to clinic', status: 'On the way' },
-    { icon: 'care', label: 'Visit Lola', status: '4:00 PM' },
-  ];
+function HeroBadge() {
   return (
-    <div className="errand-card" aria-label="Example list of errands for the day">
-      <div className="errand-head">
-        <div>
-          <p className="errand-kicker">Today</p>
-          <p className="errand-title">Your errands</p>
-        </div>
-        <span className="errand-progress">2 of 4</span>
+    <div className="hero-logo">
+      <div className="hero-logo-ring">
+        <img
+          src={badge}
+          alt="Kuya Mark, Your Personal Concierge: errands, documents, transport, family assistance and more"
+          className="hero-logo-img"
+          width="900"
+          height="900"
+        />
       </div>
-      <div className="errand-bar"><span style={{ width: '50%' }} /></div>
-      <ul className="errand-list">
-        {items.map((it) => (
-          <li key={it.label} className={it.done ? 'is-done' : ''}>
-            <span className="errand-icon"><Icon name={it.icon} size={18} /></span>
-            <span className="errand-label">{it.label}</span>
-            <span className="errand-status">
-              {it.done ? <Icon name="check" size={14} /> : <Icon name="clock" size={14} />}
-              {it.status}
-            </span>
-          </li>
-        ))}
-      </ul>
+      <a href={CONTACT.phoneHref} className="hero-status">
+        <span className="hero-status-icon"><Icon name="phone" size={18} /></span>
+        <span className="hero-status-text">
+          <span>Call or text Kuya Mark</span>
+          <strong>{CONTACT.phoneDisplay}</strong>
+        </span>
+      </a>
     </div>
   );
 }
 
-function Hero({ copy, variant }) {
+function Hero({ copy }) {
   return (
     <section className="hero" id="top">
       <div className="container hero-inner">
@@ -143,8 +133,7 @@ function Hero({ copy, variant }) {
           </ul>
         </div>
         <div className="hero-visual">
-          {variant === 'friendly' && <img src={badge} alt="Kuya Mark, your personal concierge" className="hero-badge" />}
-          <ErrandCard />
+          <HeroBadge />
         </div>
       </div>
     </section>
@@ -287,7 +276,7 @@ function Landing({ copy, variant }) {
     <>
       <Navbar copy={copy} />
       <main>
-        <Hero copy={copy} variant={variant} />
+        <Hero copy={copy} />
         <Services copy={copy} />
         <Steps copy={copy} />
         <Pricing copy={copy} />

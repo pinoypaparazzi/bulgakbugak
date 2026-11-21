@@ -77,14 +77,14 @@ h1, h2, h3 { font-family: var(--font-display); color: var(--ink); }
 }
 .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 68px; gap: 24px; }
 .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.05rem; letter-spacing: -0.01em; }
-.brand-mark {
-  display: grid;
-  place-items: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 8px;
-  background: var(--blue-600);
-  color: var(--white);
+.brand-logo {
+  display: block;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 0 2px var(--white), 0 0 0 3px var(--blue-200);
+  flex-shrink: 0;
 }
 .brand-light { font-weight: 500; color: var(--muted); }
 .nav-links { display: flex; gap: 32px; margin-left: auto; }
@@ -131,38 +131,67 @@ h1, h2, h3 { font-family: var(--font-display); color: var(--ink); }
 
 .hero-visual { position: relative; display: flex; justify-content: center; }
 
-/* Errand card (original illustration in HTML) */
-.errand-card {
+/* Hero logo badge */
+.hero-logo {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
-  max-width: 400px;
-  padding: 24px;
+  max-width: 460px;
+}
+.hero-logo-ring {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  padding: 14px;
+  border-radius: 50%;
   background: var(--white);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
 }
-.errand-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
-.errand-kicker { margin: 0; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
-.errand-title { margin: 2px 0 0; font-size: 1.15rem; font-weight: 700; }
-.errand-progress { font-size: 0.8rem; font-weight: 600; color: var(--blue-600); background: var(--blue-50); padding: 4px 10px; border-radius: 999px; }
-.errand-bar { height: 6px; border-radius: 6px; background: var(--blue-50); overflow: hidden; margin-bottom: 18px; }
-.errand-bar span { display: block; height: 100%; border-radius: 6px; background: var(--blue-500); }
-.errand-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
-.errand-list li {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
+.hero-logo-ring::before {
+  content: '';
+  position: absolute;
+  inset: -22px;
+  border-radius: 50%;
+  border: 2px dashed var(--blue-200);
+  pointer-events: none;
+}
+.hero-logo-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.hero-status {
+  position: relative;
+  z-index: 1;
+  display: flex;
   align-items: center;
   gap: 12px;
-  padding: 12px;
+  margin-top: -30px;
+  padding: 10px 20px 10px 10px;
+  background: var(--white);
   border: 1px solid var(--line);
-  border-radius: 10px;
+  border-radius: 999px;
+  box-shadow: var(--shadow-lg);
+  transition: transform 0.2s, border-color 0.2s;
 }
-.errand-icon { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 8px; background: var(--blue-50); color: var(--blue-600); }
-.errand-label { font-size: 0.92rem; font-weight: 500; }
-.errand-status { display: inline-flex; align-items: center; gap: 4px; font-size: 0.78rem; font-weight: 600; color: var(--blue-600); }
-.errand-list li.is-done .errand-label { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--blue-200); }
-.errand-list li.is-done .errand-status { color: var(--green); }
-.hero-badge { display: none; }
+.hero-status:hover { transform: translateY(-2px); border-color: var(--blue-200); }
+.hero-status-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--blue-600);
+  color: var(--white);
+  flex-shrink: 0;
+}
+.hero-status-text { display: grid; line-height: 1.25; }
+.hero-status-text span { font-size: 0.78rem; color: var(--muted); }
+.hero-status-text strong { font-size: 1.05rem; color: var(--ink); letter-spacing: 0.01em; }
 
 /* ---------- Sections ---------- */
 .section { padding: var(--section-y) 0; }
@@ -325,7 +354,7 @@ h1, h2, h3 { font-family: var(--font-display); color: var(--ink); }
     linear-gradient(160deg, var(--blue-600), var(--blue-700));
   color: var(--white);
 }
-.brand-invert .brand-mark { background: var(--white); color: var(--blue-600); }
+.brand-invert .brand-logo { box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.85); }
 .brand-invert .brand-light { color: rgba(255, 255, 255, 0.75); }
 .auth-aside-body h2 { margin: 0 0 28px; color: var(--white); font-size: clamp(2rem, 3.4vw, 2.8rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; }
 .auth-aside-body ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; max-width: 400px; }
@@ -503,7 +532,6 @@ h1, h2, h3 { font-family: var(--font-display); color: var(--ink); }
   --radius-btn: 999px;
 }
 [data-variant='friendly'] body { font-size: 1.02rem; }
-[data-variant='friendly'] .brand-mark { border-radius: 50%; }
 
 [data-variant='friendly'] .hero {
   background:
@@ -527,21 +555,9 @@ h1, h2, h3 { font-family: var(--font-display); color: var(--ink); }
 }
 [data-variant='friendly'] .trust svg { color: var(--blue-600); }
 
-[data-variant='friendly'] .hero-visual { flex-direction: column; align-items: center; }
-[data-variant='friendly'] .hero-badge {
-  display: block;
-  position: relative;
-  z-index: 1;
-  width: 200px;
-  height: 200px;
-  margin-bottom: -48px;
-  border-radius: 50%;
-  border: 6px solid var(--white);
-  box-shadow: var(--shadow-lg);
-}
-[data-variant='friendly'] .errand-card { padding-top: 64px; }
-[data-variant='friendly'] .errand-list li { border-radius: 16px; border-color: transparent; background: var(--blue-25); }
-[data-variant='friendly'] .errand-icon { border-radius: 50%; background: var(--white); }
+[data-variant='friendly'] .hero-logo-ring { padding: 10px; background: var(--blue-100); }
+[data-variant='friendly'] .hero-logo-ring::before { inset: -26px; border: 0; background: radial-gradient(circle, var(--blue-50) 60%, transparent 72%); z-index: -1; }
+[data-variant='friendly'] .hero-status { border: 0; }
 
 [data-variant='friendly'] .section-head { margin-left: auto; margin-right: auto; text-align: center; }
 [data-variant='friendly'] .section-head h2,
@@ -583,7 +599,6 @@ h1, h2, h3 { font-family: var(--font-display); color: var(--ink); }
 [data-variant='friendly'] .auth-card h1,
 [data-variant='friendly'] .auth-aside-body h2 { font-weight: 900; letter-spacing: -0.015em; }
 [data-variant='friendly'] .auth-aside { background: radial-gradient(520px 360px at 100% 0%, rgba(255, 255, 255, 0.18), transparent 70%), linear-gradient(160deg, var(--blue-500), var(--blue-600)); }
-[data-variant='friendly'] .brand-invert .brand-mark { border-radius: 50%; }
 [data-variant='friendly'] .auth-icon { border-radius: 50%; }
 [data-variant='friendly'] .field input,
 [data-variant='friendly'] .input-wrap input,
@@ -597,7 +612,9 @@ h1, h2, h3 { font-family: var(--font-display); color: var(--ink); }
 @media (max-width: 960px) {
   :root { --section-y: 88px; }
   .hero { padding: 72px 0 88px; }
-  .hero-inner { grid-template-columns: minmax(0, 1fr); gap: 56px; }
+  .hero-inner { grid-template-columns: minmax(0, 1fr); gap: 48px; }
+  .hero-visual { order: -1; }
+  .hero-logo { max-width: 380px; }
   .service-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .service-card, .service-card:nth-child(4) { grid-column: auto; }
   .service-card:last-child { grid-column: 1 / -1; }
@@ -626,7 +643,10 @@ h1, h2, h3 { font-family: var(--font-display); color: var(--ink); }
   .book-form { padding: 24px 20px; }
   .field-row { grid-template-columns: minmax(0, 1fr); }
   .footer-inner { flex-direction: column; text-align: center; padding-bottom: 56px; }
-  [data-variant='friendly'] .hero-badge { width: 160px; height: 160px; }
+  .hero-logo { max-width: 320px; }
+  .hero-logo-ring { padding: 10px; }
+  .hero-logo-ring::before { inset: -14px; }
+  .hero-status { margin-top: -24px; }
   .book-cta { padding: 28px 22px; }
   .book-cta-actions { width: 100%; align-items: stretch; }
   .book-cta-actions .book-phone { justify-content: center; }
