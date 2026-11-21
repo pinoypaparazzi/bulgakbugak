@@ -97,9 +97,9 @@ export const SERVICES = [
     pricing: QUOTE, formFields: [],
   },
   {
-    id: 'svc-06', order: 6, slug: 'repair-servicing-item-transport', status: 'published', featuredOnHome: false,
+    id: 'svc-06', order: 6, slug: 'repair-servicing-item-transport', status: 'published', featuredOnHome: true,
     name: 'Repair, Servicing, and Item Transport', icon: 'wrench', group: 'property', delivery: 'coordinated',
-    summary: 'Arranging repairs and servicing appointments, following up with shops, and transporting suitable items where feasible.',
+    summary: 'We coordinate repairs, maintenance, technician appointments, and the safe drop-off and collection of items for servicing. Electrical and plumbing services may be arranged through qualified third-party providers.',
     intro: 'Skip the back-and-forth with repair shops. We arrange servicing appointments, follow up on progress, and transport suitable items to and from the shop where feasible.',
     offerings: ['Booking repair and servicing appointments', 'Bringing items to and from service shops', 'Following up on repair status', 'Comparing service options'],
     notes: ['Repairs are performed by the service shop or provider. Item transport depends on size, weight and value.'],
@@ -177,9 +177,9 @@ export const SERVICES = [
     pricing: QUOTE, formFields: [],
   },
   {
-    id: 'svc-14', order: 14, slug: 'digital-technology-assistance', status: 'published', featuredOnHome: false,
+    id: 'svc-14', order: 14, slug: 'digital-technology-assistance', status: 'published', featuredOnHome: true,
     name: 'Digital and Technology Assistance', icon: 'laptop', group: 'business', delivery: 'mixed',
-    summary: 'Practical tech help and digital coordination, from device setup and troubleshooting to websites, AI-assisted video and home automation.',
+    summary: 'From website development and AI video production to digital content, home automation, and technology troubleshooting, we help coordinate practical technology solutions.',
     intro: 'Help with everyday technology and digital projects. Some work we handle directly; larger or specialist projects are referred to suitable technical providers, and we’ll tell you which is which.',
     offerings: ['Basic technology setup and troubleshooting', 'Website development coordination', 'AI-assisted video production', 'Digital content assistance', 'Home automation assistance', 'Coordination with specialist technical providers'],
     notes: ['We will tell you clearly whether a task is done directly or referred to an external specialist.'],
