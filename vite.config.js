@@ -1,27 +1,25 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import { SITE } from './src/data/site.js';
-import { buildStructuredData } from './src/lib/structuredData.js';
+import { renderHead } from './src/lib/head.js';
 
-const escapeAttr = (s) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+const HEAD_MARKER = /<!--head:[^>]*-->/;
 
-/* Fills the __PLACEHOLDERS__ in index.html from src/data/site.js, so the
-   domain, title and description are defined in exactly one place. */
-function siteMeta() {
+/* In development (`npm run dev`) fill in default <head> tags.
+   In production builds the marker is left alone; scripts/prerender.js
+   then writes the correct tags for each individual page. */
+function devHead() {
   return {
-    name: 'site-meta',
-    transformIndexHtml(html) {
-      const json = JSON.stringify(buildStructuredData()).replace(/</g, '\\u003c');
-      return html
-        .replaceAll('__SITE_URL__', SITE.url)
-        .replaceAll('__SITE_NAME__', escapeAttr(SITE.name))
-        .replaceAll('__TITLE__', escapeAttr(SITE.title))
-        .replaceAll('__DESCRIPTION__', escapeAttr(SITE.description))
-        .replace('__STRUCTURED_DATA__', json);
+    name: 'dev-head',
+    transformIndexHtml(html, ctx) {
+      return ctx.server ? html.replace(HEAD_MARKER, renderHead({ noindex: true })) : html;
     },
   };
 }
 
 export default defineConfig({
-  plugins: [react(), siteMeta()],
+  plugins: [react(), devHead()],
+  define: {
+    // Used to decide which blog posts are published (see src/lib/blog.js).
+    __BUILD_DATE__: JSON.stringify(new Date().toISOString().slice(0, 10)),
+  },
 });

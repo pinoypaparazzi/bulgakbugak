@@ -5,10 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:drafts": "vite --mode drafts",
     "build": "vite build && vite build --ssr src/entry-server.jsx --outDir dist-ssr && node scripts/prerender.js",
+    "build:drafts": "vite build --mode drafts && vite build --ssr src/entry-server.jsx --outDir dist-ssr --mode drafts && node scripts/prerender.js",
     "preview": "vite preview"
   },
   "dependencies": {
+    "marked": "12.0.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },

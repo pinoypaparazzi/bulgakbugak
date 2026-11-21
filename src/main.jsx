@@ -6,11 +6,11 @@ import './index.css';
 const container = document.getElementById('root');
 const app = (
   <StrictMode>
-    <App />
+    <App path={window.location.pathname} />
   </StrictMode>
 );
 
-// In the production build the page HTML is pre-rendered (good for SEO and
-// speed), so React "hydrates" it. In `npm run dev` it renders from scratch.
+// Production pages are pre-rendered HTML (good for SEO and speed), so React
+// "hydrates" them. In `npm run dev` the page renders from scratch.
 if (container.firstElementChild) hydrateRoot(container, app);
 else createRoot(container).render(app);

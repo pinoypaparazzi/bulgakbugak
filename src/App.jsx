@@ -1,61 +1,53 @@
-import { useCallback, useState } from 'react';
+import { useEffect } from 'react';
 import Header from './components/Header.jsx';
-import Hero from './components/Hero.jsx';
-import Services from './components/Services.jsx';
-import HowItWorks from './components/HowItWorks.jsx';
-import Pricing from './components/Pricing.jsx';
-import Expectations from './components/Expectations.jsx';
-import Coverage from './components/Coverage.jsx';
-import About from './components/About.jsx';
-import BookingForm from './components/BookingForm.jsx';
-import Faq from './components/Faq.jsx';
-import Contact from './components/Contact.jsx';
-import FinalCta from './components/FinalCta.jsx';
 import Footer from './components/Footer.jsx';
 import MobileActionBar from './components/MobileActionBar.jsx';
+import HomePage from './pages/HomePage.jsx';
+import ServicesPage from './pages/ServicesPage.jsx';
+import ServiceDetailPage from './pages/ServiceDetailPage.jsx';
+import PricingPage from './pages/PricingPage.jsx';
+import BlogIndexPage from './pages/BlogIndexPage.jsx';
+import BlogPostPage from './pages/BlogPostPage.jsx';
+import AboutPage from './pages/AboutPage.jsx';
+import FaqPage from './pages/FaqPage.jsx';
+import ContactPage from './pages/ContactPage.jsx';
+import BookPage from './pages/BookPage.jsx';
+import NotFoundPage from './pages/NotFoundPage.jsx';
+import { matchRoute } from './routes.js';
 
-function prefersReducedMotion() {
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-}
+const PAGES = {
+  home: HomePage,
+  services: ServicesPage,
+  service: ServiceDetailPage,
+  pricing: PricingPage,
+  blog: BlogIndexPage,
+  post: BlogPostPage,
+  about: AboutPage,
+  faq: FaqPage,
+  contact: ContactPage,
+  book: BookPage,
+  notfound: NotFoundPage,
+};
 
-export default function App() {
-  // The service chosen from a service card ("Inquire about this service")
-  const [preselected, setPreselected] = useState({ service: '', nonce: 0 });
+/* Each page is a separate pre-built HTML file; `path` tells React which one this is. */
+export default function App({ path }) {
+  const route = matchRoute(path);
+  const Page = PAGES[route.page];
 
-  /* Opens the booking form: optionally preselects a service, scrolls to the
-     form and moves keyboard focus into it. Used by every "Book" button. */
-  const openBooking = useCallback((service = '') => {
-    if (service) setPreselected((p) => ({ service, nonce: p.nonce + 1 }));
-    const section = document.getElementById('book');
-    if (!section) return;
-    section.scrollIntoView({ behavior: prefersReducedMotion() ? 'auto' : 'smooth', block: 'start' });
-    if (window.location.hash !== '#book') history.replaceState(null, '', '#book');
-    window.setTimeout(() => {
-      const target = document.getElementById('f-name');
-      target?.focus({ preventScroll: true });
-    }, prefersReducedMotion() ? 0 : 450);
-  }, []);
+  // Keeps the tab title right in `npm run dev` (production pages already have it in the HTML).
+  useEffect(() => {
+    if (route.head?.title) document.title = route.head.title;
+  }, [route]);
 
   return (
     <>
       <a className="skip-link" href="#main">Skip to main content</a>
-      <Header onBook={openBooking} />
+      <Header path={route.path} />
       <main id="main" tabIndex={-1}>
-        <Hero onBook={openBooking} />
-        <Services onInquire={openBooking} />
-        <HowItWorks />
-        <Pricing onBook={openBooking} />
-        <Expectations />
-        <Coverage />
-        <About />
-        <BookingForm preselected={preselected} />
-        <Faq />
-        <Contact />
-        <FinalCta onBook={openBooking} />
+        <Page {...(route.params || {})} />
       </main>
       <Footer />
-      <MobileActionBar onBook={openBooking} />
+      <MobileActionBar />
     </>
   );
 }
-

@@ -1,15 +1,15 @@
 import Icon from './Icon.jsx';
-import { SITE, CONTACT } from '../data/site.js';
-import { bookLinkProps } from '../lib/bookLink.js';
+import { SITE, CONTACT, HOME } from '../content/site.js';
 
 const HELP_CHIPS = [
   { icon: 'cart', label: 'Pabili & groceries', cls: 'chip-a' },
-  { icon: 'document', label: 'Document errands', cls: 'chip-b' },
-  { icon: 'clock', label: 'Queueing & waiting', cls: 'chip-c' },
-  { icon: 'heart', label: 'Senior assistance', cls: 'chip-d' },
+  { icon: 'stamp', label: 'Documents & compliance', cls: 'chip-b' },
+  { icon: 'house', label: 'Property visits', cls: 'chip-c' },
+  { icon: 'tools', label: 'Specialist coordination', cls: 'chip-d' },
 ];
 
-export default function Hero({ onBook }) {
+export default function Hero() {
+  const h = HOME.hero;
   return (
     <section className="hero" aria-labelledby="hero-title">
       <svg className="hero-swoosh" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
@@ -23,34 +23,27 @@ export default function Hero({ onBook }) {
             <span className="pill-dot" aria-hidden="true" />
             {SITE.pilotNotice}
           </p>
-          <p className="hero-tagline">{SITE.tagline}</p>
-          <h1 id="hero-title">Need an Extra Pair of Hands?</h1>
-          <p className="hero-lead">
-            From everyday errands and personal assistance to business tasks and specialized services,
-            {' '}<strong>AT YOUR SERVICE</strong> helps you get things done — without taking on everything yourself.
-          </p>
+          <p className="hero-tagline">{h.eyebrow}</p>
+          <h1 id="hero-title">{h.title}</h1>
+          <p className="hero-lead">{h.lead}</p>
 
           <div className="hero-actions">
-            <a className="btn btn-primary btn-lg" {...bookLinkProps(onBook)}>
-              Book a Service <Icon name="arrow" size={20} />
+            <a className="btn btn-primary btn-lg" href="/services/">
+              Explore Our Services <Icon name="arrow" size={20} />
             </a>
-            <a className="btn btn-outline btn-lg" href="#services">
-              Explore Our Services
-            </a>
+            <a className="btn btn-gold btn-lg" href="/book/">Book a Service</a>
+            <a className="btn btn-outline btn-lg" href="/contact/">Contact Us</a>
           </div>
 
           <p className="hero-contact">
             <Icon name="phone" size={18} />
             <span>
-              Prefer to talk? Call or Viber{' '}
-              <a href={CONTACT.phoneHref} className="link-strong">{CONTACT.phoneDisplay}</a>
+              Call or Viber <a href={CONTACT.phoneHref} className="link-strong">{CONTACT.phoneDisplay}</a>
             </span>
           </p>
 
           <ul className="hero-points">
-            <li><Icon name="check" size={18} /> Quotation before you commit</li>
-            <li><Icon name="check" size={18} /> Expenses disclosed up front</li>
-            <li><Icon name="check" size={18} /> For individuals, families &amp; businesses</li>
+            {h.points.map((p) => <li key={p}><Icon name="check" size={18} /> {p}</li>)}
           </ul>
         </div>
 
@@ -67,9 +60,9 @@ export default function Hero({ onBook }) {
             </div>
             <ol className="hv-steps">
               <li className="done"><span><Icon name="check" size={14} /></span>Tell us what you need</li>
-              <li className="done"><span><Icon name="check" size={14} /></span>Receive a quotation</li>
-              <li className="active"><span>3</span>Confirm your booking</li>
-              <li><span>4</span>Get it done</li>
+              <li className="done"><span><Icon name="check" size={14} /></span>We review and clarify</li>
+              <li className="active"><span>3</span>Confirm scope &amp; pricing</li>
+              <li><span>4</span>We get it done</li>
             </ol>
             <div className="hv-foot">
               <Icon name="pin" size={16} /> Quezon City pilot program

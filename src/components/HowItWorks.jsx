@@ -1,18 +1,15 @@
 import Icon from './Icon.jsx';
-import { STEPS } from '../data/content.js';
+import { STEPS, STEPS_NOTE } from '../content/content.js';
 
-export default function HowItWorks() {
+export default function HowItWorks({ soft = true }) {
   return (
-    <section id="how-it-works" className="section section-soft" aria-labelledby="how-title">
+    <section id="how-it-works" className={`section${soft ? ' section-soft' : ''}`} aria-labelledby="how-title">
       <div className="container">
         <header className="section-head">
           <p className="eyebrow">How it works</p>
           <h2 id="how-title">Four simple steps from request to done</h2>
-          <p className="section-lead">
-            You stay in control at every stage. We only start once you’ve seen the quotation and said yes.
-          </p>
+          <p className="section-lead">You stay in control at every stage. Work only starts once you’ve agreed the scope and pricing.</p>
         </header>
-
         <ol className="steps">
           {STEPS.map((step, i) => (
             <li key={step.title} className="step">
@@ -26,13 +23,9 @@ export default function HowItWorks() {
             </li>
           ))}
         </ol>
-
         <p className="note">
           <Icon name="info" size={20} />
-          <span>
-            <strong>Good to know:</strong> sending an inquiry does not automatically confirm a booking.
-            Your booking is confirmed only after you approve our quotation.
-          </span>
+          <span><strong>Good to know:</strong> {STEPS_NOTE}</span>
         </p>
       </div>
     </section>
