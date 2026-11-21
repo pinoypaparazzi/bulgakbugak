@@ -15,6 +15,10 @@
                     NO PRICES HAVE BEEN APPROVED YET — all use 'quote'
                     or 'third_party'. Do not add amounts until approved.
    - formFields     extra questions shown in the booking form
+   - availability   'available' (default) | 'coming_soon'  (see AVAILABILITY below)
+   - useCases       optional list: "who this is for" on the detail page
+   - faqs           optional list of { id, q, a } shown on the detail page
+                    (also added to that page's FAQ structured data)
    ========================================================= */
 
 export const SERVICE_GROUPS = [
@@ -24,7 +28,23 @@ export const SERVICE_GROUPS = [
   { id: 'property', label: 'Home, property & vehicles' },
   { id: 'business', label: 'Business, documents & digital' },
   { id: 'partners', label: 'Specialists & partners' },
+  { id: 'care', label: 'Personal care & laundry' },
 ];
+
+/* AVAILABILITY (future "availability" column)
+   - 'available'    normal service (default when the field is missing)
+   - 'coming_soon'  shown with a "Coming Soon" badge and "Provider availability
+                    to be confirmed"; the call to action becomes "Request an Inquiry".
+   Switch to 'available' only once provider partnerships are actually in place. */
+export const AVAILABILITY = {
+  available: { label: null, notice: null },
+  coming_soon: {
+    label: 'Coming Soon',
+    notice: 'Provider availability to be confirmed. We’re still arranging provider partnerships for this service, so we can’t confirm bookings yet. Send an inquiry and we’ll let you know when and where it becomes available.',
+  },
+};
+export const availabilityOf = (s) => AVAILABILITY[s?.availability] || AVAILABILITY.available;
+export const isComingSoon = (s) => s?.availability === 'coming_soon';
 
 const QUOTE = { format: 'quote' };
 const THIRD_PARTY = { format: 'third_party' };
@@ -42,6 +62,12 @@ const F = {
   realEstate: { name: 'realEstateGoal', label: 'What would you like to do?', type: 'select', options: ['Buy', 'Sell', 'Rent', 'Lease out my property', 'Just asking'] },
   vehicle: { name: 'vehicle', label: 'Vehicle make and model', type: 'text' },
   pet: { name: 'pet', label: 'Type of pet', type: 'text' },
+  laundryLoad: { name: 'laundryLoad', label: 'Approximate laundry amount', type: 'select', options: ['1 bag / small load', '2–3 bags', 'Large load or linens', 'Regular weekly laundry', 'Not sure'] },
+  specialCare: { name: 'specialCare', label: 'Any delicate or special-care items?', type: 'text' },
+  nailService: { name: 'nailService', label: 'Service needed', type: 'select', options: ['Manicure', 'Pedicure', 'Manicure and pedicure'] },
+  people: { name: 'people', label: 'Number of people', type: 'select', options: ['1', '2', '3', '4', '5 or more'] },
+  groomingFor: { name: 'groomingFor', label: 'Who is the haircut or grooming for?', type: 'select', options: ['Adult', 'Child', 'Senior', 'Several family members'] },
+  occasion: { name: 'occasion', label: 'Occasion and date', type: 'text', hint: 'For example: wedding guest, 14 February, morning.' },
   volume: { name: 'volume', label: 'Approximate size of the job', type: 'select', options: ['A few items', 'One room', 'Several rooms / whole unit', 'Office or business space', 'Not sure'] },
 };
 
@@ -245,6 +271,72 @@ export const SERVICES = [
     notes: ['Every request is reviewed individually and is subject to feasibility, availability, safety and legal requirements.'],
     deliveryNote: 'Usually coordinated with external providers.',
     pricing: QUOTE, formFields: [],
+  },
+
+  /* ---------- Personal care & laundry: COMING SOON (no provider partnerships yet) ---------- */
+  {
+    id: 'svc-21', order: 21, slug: 'laundry-pickup-delivery', status: 'published', availability: 'coming_soon', featuredOnHome: false,
+    name: 'Laundry Pickup and Delivery', icon: 'shirt', group: 'care', delivery: 'coordinated',
+    summary: 'Laundry collected from your home or office, taken to a laundry provider, and returned to you, so you don’t have to make the trip.',
+    intro: 'We plan to collect your laundry, bring it to a laundry provider for washing, drying and folding or pressing, and return it to your door. This service is being prepared, and provider availability is still to be confirmed.',
+    offerings: ['Pickup of laundry from your home or office', 'Drop-off at a laundry provider', 'Return delivery of finished laundry', 'Coordinating special instructions with the provider'],
+    useCases: ['Busy professionals with no time for laundry runs', 'Families with a large weekly load', 'Seniors who would rather not carry heavy bags', 'Small offices and rental units needing linens handled'],
+    notes: ['Washing, drying and pressing are done by a third-party laundry provider, not by AT YOUR SERVICE.', 'Please point out delicate, special-care or high-value items. How they are handled depends on the provider’s terms, which we’ll explain before you confirm.'],
+    deliveryNote: 'Pickup and delivery coordinated by AT YOUR SERVICE; laundering by a third-party laundry provider (to be confirmed).',
+    faqs: [
+      { id: 'faq-laundry-available', q: 'Is laundry pickup available now?', a: 'Not yet. We are still arranging provider partnerships, so availability has not been confirmed. You can send an inquiry and we’ll let you know when the service is available in your area.' },
+      { id: 'faq-laundry-who', q: 'Who washes the laundry?', a: 'A third-party laundry provider. AT YOUR SERVICE coordinates the pickup, drop-off and return delivery.' },
+      { id: 'faq-laundry-cost', q: 'How much will it cost?', a: 'Pricing hasn’t been set. When the service launches, costs (including the provider’s laundry charges and any pickup and delivery fees) will be explained before you confirm.' },
+    ],
+    pricing: THIRD_PARTY, formFields: [F.laundryLoad, F.specialCare],
+  },
+  {
+    id: 'svc-22', order: 22, slug: 'home-service-manicure-pedicure', status: 'published', availability: 'coming_soon', featuredOnHome: false,
+    name: 'Home Service Manicure and Pedicure', icon: 'hand', group: 'care', delivery: 'coordinated',
+    summary: 'Manicure and pedicure at home, arranged with an independent nail care provider, for when getting to a salon isn’t convenient.',
+    intro: 'We plan to arrange home service manicures and pedicures with independent nail care providers, so you can be pampered without leaving the house. This service is coming soon, and provider availability is still to be confirmed.',
+    offerings: ['Home service manicure', 'Home service pedicure', 'Manicure and pedicure together', 'Arrangements for more than one person'],
+    useCases: ['Relaxing at home after a busy week', 'Seniors or family members who find it hard to travel', 'Getting ready for an event or occasion', 'Small groups at home'],
+    notes: ['Services will be performed by independent third-party providers, not by AT YOUR SERVICE.', 'This is a cosmetic service, not a medical or podiatry treatment. Please mention any skin, nail or health concerns in your inquiry.'],
+    deliveryNote: 'Arranged by AT YOUR SERVICE; performed by an independent nail care provider (to be confirmed).',
+    faqs: [
+      { id: 'faq-nails-available', q: 'Can I book a home service manicure or pedicure now?', a: 'Not yet. Provider availability hasn’t been confirmed. Send an inquiry and we’ll contact you once we can arrange it in your area.' },
+      { id: 'faq-nails-who', q: 'Who will do the manicure and pedicure?', a: 'An independent third-party provider. We’ll share who is providing the service before you confirm anything.' },
+      { id: 'faq-nails-cost', q: 'What will it cost?', a: 'Pricing hasn’t been set. Costs will be explained clearly before you confirm a booking.' },
+    ],
+    pricing: THIRD_PARTY, formFields: [F.nailService, F.people],
+  },
+  {
+    id: 'svc-23', order: 23, slug: 'haircuts-personal-grooming', status: 'published', availability: 'coming_soon', featuredOnHome: false,
+    name: 'Haircuts and Personal Grooming', icon: 'scissors', group: 'care', delivery: 'coordinated',
+    summary: 'Home service haircuts and basic personal grooming for adults, children and seniors, arranged with independent providers.',
+    intro: 'We plan to arrange home service haircuts and basic grooming with independent barbers and hairdressers, which is especially helpful for those who find it hard to get to a shop. This service is coming soon, and provider availability is still to be confirmed.',
+    offerings: ['Home service haircuts', 'Haircuts for children and seniors', 'Basic personal grooming, such as beard trims', 'Arrangements for more than one person'],
+    useCases: ['Seniors or family members with limited mobility', 'Children who are more comfortable at home', 'Busy professionals short on time', 'Households wanting several haircuts in one visit'],
+    notes: ['Services will be performed by independent third-party providers, not by AT YOUR SERVICE.', 'Please mention any scalp or skin concerns, or mobility needs, in your inquiry.'],
+    deliveryNote: 'Arranged by AT YOUR SERVICE; performed by an independent barber or hairdresser (to be confirmed).',
+    faqs: [
+      { id: 'faq-hair-available', q: 'Is home service haircut available now?', a: 'Not yet. We’re still arranging provider partnerships, so availability hasn’t been confirmed. Send an inquiry and we’ll let you know when we can help.' },
+      { id: 'faq-hair-seniors', q: 'Can you arrange a haircut for an elderly family member at home?', a: 'That’s one of the main reasons we’re preparing this service. Tell us about any mobility needs in your inquiry so we can plan for them once providers are available.' },
+      { id: 'faq-hair-cost', q: 'How much will it cost?', a: 'Pricing hasn’t been set. Costs will be explained before you confirm anything.' },
+    ],
+    pricing: THIRD_PARTY, formFields: [F.groomingFor, F.people],
+  },
+  {
+    id: 'svc-24', order: 24, slug: 'hair-makeup-services', status: 'published', availability: 'coming_soon', featuredOnHome: false,
+    name: 'Hair and Makeup Services', icon: 'brush', group: 'care', delivery: 'coordinated',
+    summary: 'Hair styling and makeup for events and special occasions, arranged with independent hair and makeup artists.',
+    intro: 'We plan to help you find and schedule independent hair and makeup artists for occasions such as parties, photo shoots and formal events. This service is coming soon, and provider availability is still to be confirmed.',
+    offerings: ['Event and special-occasion makeup', 'Hair styling', 'Hair and makeup for small groups', 'Coordinating schedules and location with the artist'],
+    useCases: ['Birthdays, debuts and family celebrations', 'Graduations and formal events', 'Photo or video shoots', 'Business events and presentations'],
+    notes: ['Services will be performed by independent third-party artists, not by AT YOUR SERVICE.', 'Please mention any allergies or skin sensitivities in your inquiry.'],
+    deliveryNote: 'Arranged by AT YOUR SERVICE; performed by an independent hair and makeup artist (to be confirmed).',
+    faqs: [
+      { id: 'faq-hmu-available', q: 'Can I book hair and makeup for my event now?', a: 'Not yet. Provider availability hasn’t been confirmed. Send an inquiry with your event date and we’ll let you know whether we can help.' },
+      { id: 'faq-hmu-who', q: 'Who are the artists?', a: 'Independent third-party hair and makeup artists. We’ll tell you who is providing the service before you confirm anything.' },
+      { id: 'faq-hmu-cost', q: 'What will it cost?', a: 'Pricing hasn’t been set. It will depend on the services, number of people and location, and will be explained before you confirm.' },
+    ],
+    pricing: THIRD_PARTY, formFields: [F.occasion, F.people],
   },
 ];
 

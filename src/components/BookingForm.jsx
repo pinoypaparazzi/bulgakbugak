@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import Icon from './Icon.jsx';
-import { publishedServices, publishedSpecialties, findService, NOT_SURE, serviceUrl } from '../content/services.js';
+import { publishedServices, publishedSpecialties, findService, NOT_SURE, serviceUrl, isComingSoon, availabilityOf } from '../content/services.js';
 import { CONTACT } from '../content/site.js';
 import { EMPTY_INQUIRY, TIME_OPTIONS, validateInquiry, buildLinks, extraFieldsFor } from '../lib/inquiry.js';
 
@@ -172,10 +172,11 @@ export default function BookingForm() {
             </Field>
 
             {selected && (
-              <p className="selected-service span-2">
-                <Icon name="info" size={18} />
+              <p className={`selected-service span-2${isComingSoon(selected) ? ' selected-soon' : ''}`}>
+                <Icon name={isComingSoon(selected) ? 'clock' : 'info'} size={18} />
                 <span>
-                  {selected.deliveryNote}{' '}
+                  {isComingSoon(selected) && <><strong>Coming Soon: </strong>{availabilityOf(selected).notice}{' '}</>}
+                  {!isComingSoon(selected) && <>{selected.deliveryNote}{' '}</>}
                   <a href={serviceUrl(selected)} target="_blank" rel="noopener noreferrer">
                     Service details<span className="sr-only"> (opens in a new tab)</span>
                   </a>

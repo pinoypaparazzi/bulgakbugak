@@ -32,7 +32,7 @@ export default function HomePage() {
           </ul>
           <SpecialtyStrip headingLevel={3} title="Also available: specialized services" />
           <p className="section-more">
-            <a className="btn btn-primary btn-lg" href="/services/">See all 20 service categories <Icon name="arrow" size={20} /></a>
+            <a className="btn btn-primary btn-lg" href="/services/">View All Services <Icon name="arrow" size={20} /></a>
           </p>
         </div>
       </section>

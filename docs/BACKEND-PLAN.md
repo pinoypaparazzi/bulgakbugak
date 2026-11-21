@@ -34,7 +34,7 @@ Publishing is **not instant**. After you press Publish, Netlify rebuilds the sit
 | Table | Replaces | Key columns |
 | --- | --- | --- |
 | `settings` | `site.js` (business info, nav, homepage, about, footer, map) | `key`, `value jsonb`, `updated_at` |
-| `services` | `SERVICES` + `SPECIALTIES` | `id`, `slug` (unique), `parent_id`, `name`, `summary`, `intro`, `offerings jsonb`, `notes jsonb`, `delivery`, `group`, `icon`, `order`, `status`, `featured_on_home`, `form_fields jsonb`, `seo_title`, `seo_description` |
+| `services` | `SERVICES` + `SPECIALTIES` | `id`, `slug` (unique), `parent_id`, `name`, `summary`, `intro`, `offerings jsonb`, `notes jsonb`, `delivery`, `group`, `icon`, `order`, `status`, `availability` (available / coming_soon), `featured_on_home`, `use_cases jsonb`, `faqs jsonb`, `form_fields jsonb`, `seo_title`, `seo_description` |
 | `service_pricing` | `pricing` objects | `service_id`, `format`, `amount`, `min`, `max`, `packages jsonb`, `inclusions jsonb`, `exclusions jsonb`, `notes jsonb`, `third_party_note`, `published` |
 | `coverage_areas` | `COVERAGE.areas` | `id`, `name`, `order`, `active` |
 | `faqs` | `FAQS` | `id`, `question`, `answer`, `order`, `published` |

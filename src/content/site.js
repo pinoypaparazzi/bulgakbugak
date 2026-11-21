@@ -88,7 +88,7 @@ export const HOME = {
     points: ['Quotation before you commit', 'One point of contact for many needs', 'For individuals, families & businesses'],
   },
   servicesIntro:
-    'A few of the ways we can help. From pabili and grocery shopping assistance to document runs and property visits, see the full catalogue for all 20 service categories.',
+    'A few of the ways we can help. From pabili and grocery shopping assistance to document runs and property visits, see the full catalogue for everything we offer.',
   whyChoose: [
     { icon: 'network', title: 'One point of contact', text: 'Errands, paperwork, property visits and specialist bookings through a single contact, instead of juggling several.' },
     { icon: 'chat', title: 'Clear communication', text: 'We confirm the details with you and keep you informed about how your request is going.' },

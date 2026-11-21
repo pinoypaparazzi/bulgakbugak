@@ -9,7 +9,7 @@
    src/components/BookingForm.jsx. Fields and validation stay the same.
    ========================================================= */
 import { CONTACT, SITE } from '../content/site.js';
-import { findService, NOT_SURE } from '../content/services.js';
+import { findService, NOT_SURE, isComingSoon } from '../content/services.js';
 
 export const EMPTY_INQUIRY = {
   name: '', mobile: '', email: '', service: '', task: '', location: '', date: '', time: '', notes: '', consent: false, extra: {},
@@ -58,7 +58,7 @@ export function buildInquiryMessage(d) {
     `Name: ${d.name.trim()}`,
     `Mobile: ${d.mobile.trim()}`,
     `Email: ${d.email.trim() || 'Not provided'}`,
-    `Service: ${serviceName(d.service)}`,
+    `Service: ${serviceName(d.service)}${isComingSoon(findService(d.service)) ? ' (Coming Soon: inquiry about availability)' : ''}`,
     `Location: ${d.location.trim()}`,
     `Preferred date: ${formatDate(d.date)}`,
     `Preferred time: ${d.time || 'Flexible'}`,

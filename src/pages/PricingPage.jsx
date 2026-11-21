@@ -18,8 +18,8 @@ function PriceTable({ caption, items }) {
           {items.map((s) => (
             <tr key={s.slug}>
               <th scope="row"><a href={serviceUrl(s)}>{s.name}</a></th>
-              <td><PriceTag pricing={s.pricing} compact /></td>
-              <td><a className="table-quote" href={bookUrl(s)}>Request a quote<span className="sr-only"> for {s.name}</span></a></td>
+              <td><PriceTag pricing={s.pricing} availability={s.availability} compact /></td>
+              <td><a className="table-quote" href={bookUrl(s)}>{s.availability === 'coming_soon' ? 'Request an inquiry' : 'Request a quote'}<span className="sr-only"> for {s.name}</span></a></td>
             </tr>
           ))}
         </tbody>

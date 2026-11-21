@@ -1,6 +1,6 @@
 import Icon from './Icon.jsx';
 import PriceTag from './PriceTag.jsx';
-import { serviceUrl, bookUrl } from '../content/services.js';
+import { serviceUrl, bookUrl, isComingSoon } from '../content/services.js';
 
 const DELIVERY_BADGE = { coordinated: 'Through providers', mixed: null, direct: null };
 
@@ -8,26 +8,28 @@ const DELIVERY_BADGE = { coordinated: 'Through providers', mixed: null, direct: 
 export default function ServiceCard({ service, hidden = false, headingLevel = 3 }) {
   const H = `h${headingLevel}`;
   const titleId = `card-${service.slug}`;
-  const badge = DELIVERY_BADGE[service.delivery];
+  const soon = isComingSoon(service);
+  const badge = soon ? 'Coming Soon' : DELIVERY_BADGE[service.delivery];
+  const cta = soon ? 'Request an inquiry' : 'Request a quote';
   return (
     <li id={`service-${service.slug}`} className="service-card" hidden={hidden}>
       <article aria-labelledby={titleId}>
         <div className="service-card-top">
           <span className="service-icon"><Icon name={service.icon} size={26} /></span>
-          {badge && <span className="badge-partner">{badge}</span>}
+          {badge && <span className={`badge-partner${soon ? ' badge-soon' : ''}`}>{badge}</span>}
         </div>
         <H id={titleId} className="service-card-title">
           <a href={serviceUrl(service)}>{service.name}</a>
         </H>
         <p>{service.summary}</p>
-        <PriceTag pricing={service.pricing} compact />
+        <PriceTag pricing={service.pricing} availability={service.availability} compact />
         <div className="service-card-actions">
           <a className="service-cta" href={serviceUrl(service)}>
             View details<span className="sr-only">: {service.name}</span>
             <Icon name="arrow" size={18} />
           </a>
           <a className="service-quote" href={bookUrl(service)}>
-            Request a quote<span className="sr-only"> for {service.name}</span>
+            {cta}<span className="sr-only"> for {service.name}</span>
           </a>
         </div>
       </article>

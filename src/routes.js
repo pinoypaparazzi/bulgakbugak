@@ -6,7 +6,7 @@
    ========================================================= */
 import { SITE } from './content/site.js';
 import { FAQS } from './content/content.js';
-import { allServicePages, publishedServices, findById, serviceUrl } from './content/services.js';
+import { allServicePages, publishedServices, findById, serviceUrl, isComingSoon } from './content/services.js';
 import { visiblePosts, postUrl, activeCategories, categoryUrl, blogPageUrl, BLOG_PAGE_SIZE, isPublic } from './lib/blog.js';
 import { POSTS } from './content/blog.js';
 import * as SD from './lib/structuredData.js';
@@ -23,7 +23,7 @@ export function getRoutes() {
       path: '/services/', page: 'services',
       head: {
         title: 'Services in Quezon City | Errands, Assistance & Coordination | AT YOUR SERVICE',
-        description: 'All 20 service categories: errands and pabili, grocery shopping, government compliance and document assistance, property visits, drone photography, electrician and plumbing coordination, and more.',
+        description: `All ${publishedServices().length} service categories: errands and pabili, grocery shopping, government compliance and document assistance, property visits, drone photography, electrician and plumbing coordination, laundry and personal care (coming soon), and more.`,
         jsonLd: [SD.serviceList(publishedServices()), crumbs({ name: 'Services', path: '/services/' })],
       },
     },
@@ -69,7 +69,7 @@ export function getRoutes() {
     },
   ];
 
-  // Service pages (20 categories + specialties)
+  // Service pages (all categories + specialties)
   for (const s of allServicePages()) {
     const path = serviceUrl(s);
     const parent = s.parentId ? findById(s.parentId) : null;
@@ -79,9 +79,9 @@ export function getRoutes() {
     routes.push({
       path, page: 'service', params: { slug: s.slug },
       head: {
-        title: `${s.name} in Quezon City | AT YOUR SERVICE`,
-        description: s.summary,
-        jsonLd: [SD.serviceSchema(s, path), crumbs(...trail)],
+        title: `${s.name} in Quezon City${isComingSoon(s) ? ' (Coming Soon)' : ''} | AT YOUR SERVICE`,
+        description: isComingSoon(s) ? `${s.summary} Coming soon: provider availability to be confirmed.` : s.summary,
+        jsonLd: [SD.serviceSchema(s, path), ...(s.faqs?.length ? [SD.faqPage(s.faqs)] : []), crumbs(...trail)],
       },
     });
   }

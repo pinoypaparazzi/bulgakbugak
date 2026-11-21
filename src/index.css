@@ -926,3 +926,19 @@ body { padding-bottom: calc(62px + env(safe-area-inset-bottom)); }
 .pricing-grid h2 { font-size: clamp(1.4rem, 1.2rem + 0.8vw, 1.75rem); }
 .breadcrumbs ol { display: block; }
 .breadcrumbs li { display: inline; }
+
+/* ---------- Coming-soon services ---------- */
+.badge-soon { background: var(--navy-50); color: var(--navy-800); border-color: var(--navy-100); }
+.price-coming_soon .price-headline { color: var(--navy-700); }
+.availability-notice {
+  display: flex; gap: 10px; align-items: flex-start; max-width: 760px; margin: 24px 0 0; padding: 14px 16px;
+  border-radius: 12px; background: var(--navy-50); border-left: 4px solid var(--navy-700); color: var(--ink); font-size: 0.95rem;
+}
+.availability-notice svg { flex-shrink: 0; margin-top: 2px; color: var(--navy-700); }
+.use-cases { display: grid; gap: 10px; }
+@media (min-width: 640px) { .use-cases { grid-template-columns: repeat(2, 1fr); } }
+.use-cases li { display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line); color: var(--ink); font-weight: 600; font-size: 0.95rem; }
+.use-cases svg { flex-shrink: 0; margin-top: 2px; color: var(--gold-600); }
+.detail-main .faq-list { margin-top: 4px; }
+.selected-soon { background: var(--gold-50); border: 1px solid var(--gold-100); }
+.selected-soon svg { color: var(--gold-700); }
