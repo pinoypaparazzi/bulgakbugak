@@ -8,7 +8,9 @@
     "dev:drafts": "vite --mode drafts",
     "build": "vite build && vite build --ssr src/entry-server.jsx --outDir dist-ssr && node scripts/prerender.js",
     "build:drafts": "vite build --mode drafts && vite build --ssr src/entry-server.jsx --outDir dist-ssr --mode drafts && node scripts/prerender.js",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "dev:admin": "vite --config vite.admin.config.js",
+    "build:admin": "vite build --config vite.admin.config.js"
   },
   "dependencies": {
     "marked": "12.0.2",

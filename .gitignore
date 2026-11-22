@@ -4,3 +4,4 @@ dist-ssr
 
 # Backend secrets
 server/.env
+dist-admin
