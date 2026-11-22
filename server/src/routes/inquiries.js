@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import Inquiry from '../models/Inquiry.js';
 // Same validation the booking form runs in the browser.
-import { EMPTY_INQUIRY, validateInquiry } from '../../../src/lib/inquiry.js';
+import { EMPTY_INQUIRY, validateInquiry } from '../../../landingpage/src/lib/inquiry.js';
 
 const router = Router();
 
