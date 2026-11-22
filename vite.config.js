@@ -18,6 +18,10 @@ function devHead() {
 
 export default defineConfig({
   plugins: [react(), devHead()],
+  server: {
+    // Forward /api calls to the Express backend in server/ during development.
+    proxy: { '/api': 'http://localhost:4000' },
+  },
   define: {
     // Used to decide which blog posts are published (see src/lib/blog.js).
     __BUILD_DATE__: JSON.stringify(new Date().toISOString().slice(0, 10)),
